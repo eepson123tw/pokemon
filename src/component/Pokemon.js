@@ -1,30 +1,58 @@
 import { useEffect, useState } from 'react'
 import { getPokemon } from '../api/pokemon'
+import { useScrollHandler } from '../utils/scroll'
+import useDebouncedCallback from '../utils/debounce'
 import React from 'react'
+
 export default function Pokemon() {
   const [pokemonList, setPokemonList] = useState([])
   const [pokemonNum, setPokemonNum] = useState(0)
-  const emptyList = new Array(50).fill('')
-  console.log(emptyList)
+  const [pageNum, setPageNum] = useState(1)
+  const [maxPageNum, setMaxPageNum] = useState(0)
+  const showCardNum = 50
+  const emptyList = new Array(showCardNum).fill('')
+  const [offset] = useScrollHandler()
   let promise = []
+
+  const onScrollDebounce = useDebouncedCallback((newValue) => {
+    setPageNum(pageNum + 1)
+  }, 1000)
+
+  const fn = (list) => {
+    // @ts-ignore
+    setPokemonList([...pokemonList, ...list])
+  }
+
+  useEffect(() => {
+    // @ts-ignore
+    if (window.innerHeight + Math.round(offset) >= document.body.scrollHeight) {
+      onScrollDebounce()
+    }
+  }, [offset])
+
+  useEffect(() => {
+    const num = pageNum === 1 ? 1 : showCardNum * (pageNum - 1) + 1
+    if (pageNum === maxPageNum) return
+    for (let i = num; i <= showCardNum * pageNum; i++) {
+      const url = `https://pokeapi.co/api/v2/pokemon/${i}`
+      promise.push(fetch(url).then((res) => res.json()))
+    }
+    // @ts-ignore
+    Promise.all(promise).then((results) => {
+      const pokemon = results.map((result) => ({
+        name: result.name,
+        image: result.sprites['front_default'],
+        type: result.types.map((type) => type.type.name).join(', '),
+        id: result.id
+      }))
+      fn(pokemon)
+    })
+  }, [pageNum])
+
   useEffect(() => {
     getPokemon().then((res) => {
-      promise = []
-      for (let i = 1; i <= 20; i++) {
-        const url = `https://pokeapi.co/api/v2/pokemon/${i}`
-        promise.push(fetch(url).then((res) => res.json()))
-      }
-      Promise.all(promise).then((results) => {
-        console.log({ results })
-        const pokemon = results.map((result) => ({
-          name: result.name,
-          image: result.sprites['front_default'],
-          type: result.types.map((type) => type.type.name).join(', '),
-          id: result.id
-        }))
-        setPokemonList(pokemon)
-      })
       setPokemonNum(res.length)
+      setMaxPageNum(() => Math.round(pokemonNum / 50))
     })
     return () => {
       setPokemonList([])
@@ -37,7 +65,7 @@ export default function Pokemon() {
       <h2 className='mb-4 font-serif text-4xl text-white'>
         pokemon list {pokemonNum}
       </h2>
-      <ul className='grid grid-cols-9 gap-6'>
+      <ul className='grid grid-cols-6 gap-3'>
         {!pokemonList.length &&
           emptyList.map((d, i) => (
             <li
@@ -51,18 +79,22 @@ export default function Pokemon() {
             </li>
           ))}
       </ul>
-      {/* <ul className='flex flex-wrap justify-center'>
+      <ul className='grid grid-cols-6 gap-3'>
         {pokemonList.length &&
           pokemonList.map((pokemon, idx) => (
             <li
-              className='m-2 text-center text-gray-700 font-medium p-2 bg-white'
+              className='flex justify-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-5 max-h-[250px]'
               key={pokemon.name + idx}
             >
               <p>{pokemon.name}</p>
-              <img src={pokemon.image} alt={pokemon.name} />
+              <img
+                src={pokemon.image}
+                alt={pokemon.name}
+                className='block w-auto'
+              />
             </li>
           ))}
-      </ul> */}
+      </ul>
     </div>
   )
 }
