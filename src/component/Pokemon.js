@@ -4,7 +4,7 @@ import { useScrollHandler } from '../utils/scroll'
 import useDebouncedCallback from '../utils/debounce'
 import React from 'react'
 
-export default function Pokemon() {
+export default function Pokemon({ randomColor, onScroll }) {
   const [pokemonList, setPokemonList] = useState([])
   const [pokemonNum, setPokemonNum] = useState(0)
   const [pageNum, setPageNum] = useState(1)
@@ -12,6 +12,7 @@ export default function Pokemon() {
   const showCardNum = 50
   const emptyList = new Array(showCardNum).fill('')
   const [offset] = useScrollHandler()
+
   let promise = []
 
   const onScrollDebounce = useDebouncedCallback((newValue) => {
@@ -19,6 +20,9 @@ export default function Pokemon() {
   }, 1000)
 
   const fn = (list) => {
+    if (pageNum === 1) {
+      return setPokemonList(list)
+    }
     // @ts-ignore
     setPokemonList([...pokemonList, ...list])
   }
@@ -28,11 +32,14 @@ export default function Pokemon() {
     if (window.innerHeight + Math.round(offset) >= document.body.scrollHeight) {
       onScrollDebounce()
     }
+    onScroll(offset)
+    // colorComputed(offset)
   }, [offset])
 
   useEffect(() => {
     const num = pageNum === 1 ? 1 : showCardNum * (pageNum - 1) + 1
-    if (pageNum === maxPageNum) return
+    if (pageNum < maxPageNum - 3) return
+    promise = []
     for (let i = num; i <= showCardNum * pageNum; i++) {
       const url = `https://pokeapi.co/api/v2/pokemon/${i}`
       promise.push(fetch(url).then((res) => res.json()))
@@ -65,7 +72,7 @@ export default function Pokemon() {
       <h2 className='mb-4 font-serif text-4xl text-white'>
         pokemon list {pokemonNum}
       </h2>
-      <ul className='grid grid-cols-6 gap-3'>
+      <ul className='grid grid-cols-1 gap-3 md:grid-cols-5 xl:grid-cols-6 sm:grid-cols-2'>
         {!pokemonList.length &&
           emptyList.map((d, i) => (
             <li
@@ -79,22 +86,27 @@ export default function Pokemon() {
             </li>
           ))}
       </ul>
-      <ul className='grid grid-cols-6 gap-3'>
+      <ul className='grid grid-cols-1 gap-3 md:grid-cols-5 xl:grid-cols-6 sm:grid-cols-2  '>
         {pokemonList.length &&
           pokemonList.map((pokemon, idx) => (
             <li
-              className='flex justify-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-5 max-h-[250px]'
+              className='flex justify-center items-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-2 max-h-[150px] uppercase hover:border-pink-700 hover:bg-black ease-linear duration-300 hover:text-yellow-100'
               key={pokemon.name + idx}
             >
-              <p>{pokemon.name}</p>
+              <p className='text-base'>{pokemon.name}</p>
               <img
                 src={pokemon.image}
                 alt={pokemon.name}
-                className='block w-auto'
+                className='block w-auto '
               />
             </li>
           ))}
       </ul>
+      {pageNum < 22 && (
+        <p className='animate-bounce w-6 h-6 rounded-full text-center bg-black text-white border border-purple-200 fixed bottom-2 left-1/2 '>
+          ↓
+        </p>
+      )}
     </div>
   )
 }
