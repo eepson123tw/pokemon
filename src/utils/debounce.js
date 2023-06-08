@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * to debounce any action which will be triggered usually.
+ */
+
 const useDebouncedCallback = (callback, delay, dependencies) => {
   const timeout = React.useRef()
 
