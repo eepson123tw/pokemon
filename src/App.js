@@ -8,7 +8,7 @@ function App() {
   }
 
   return (
-    <div style={{ background: `hsl(${randomColor},60%,70%)` }}>
+    <div style={{ background: `hsl(${randomColor},60%,70%)` }} className='app'>
       <Pokemon randomColor={randomColor} onScroll={colorComputed}></Pokemon>
     </div>
   )
