@@ -52,12 +52,15 @@ const usePokemonContext = () => {
   return context
 }
 
+// call api to get pokemonList
 let promise = []
-// call promise
-const updatedPokemon = (dispatch, { pageNum, showCardNum, maxPageNum }) => {
+const updatedPokemon = (
+  dispatch,
+  { pageNum, showCardNum, maxPageNum, pokemonList }
+) => {
   const num = pageNum === 1 ? 1 : showCardNum * (pageNum - 1) + 1
-
   if (pageNum >= maxPageNum - 3 && maxPageNum !== 0) return
+  if (pageNum === 1 && pokemonList.length) return
   promise = []
   for (let i = num; i <= showCardNum * pageNum; i++) {
     const url = `https://pokeapi.co/api/v2/pokemon/${i}`

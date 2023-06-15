@@ -1,6 +1,7 @@
-import Pokemon from './component/Pokemon'
-import { useState } from 'react'
 import React from 'react'
+import Pokemon from './component/Pokemon'
+import GoTop from './component/GoTop'
+import { useState } from 'react'
 import { PokemonProvider } from './store/pokemonReducer'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <PokemonProvider>
         <Pokemon randomColor={randomColor} onScroll={colorComputed}></Pokemon>
       </PokemonProvider>
+      <GoTop></GoTop>
     </div>
   )
 }

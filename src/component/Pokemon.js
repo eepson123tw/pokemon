@@ -34,7 +34,12 @@ export default function Pokemon({ onScroll }) {
   })
 
   useEffect(() => {
-    updatedPokemon(pokemonDispatch, { pageNum, showCardNum, maxPageNum })
+    updatedPokemon(pokemonDispatch, {
+      pageNum,
+      showCardNum,
+      maxPageNum,
+      pokemonList
+    })
   }, [pageNum])
 
   return (
