@@ -11,6 +11,12 @@ export default function Pokemon({ onScroll }) {
   const showCardNum = 50
   const [{ pokemonList, allPokemonNumber, maxPageNum }, pokemonDispatch] =
     usePokemonContext()
+  const goToBottom = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    })
+  }
 
   // init card data
   useLayoutEffect(() => {
@@ -57,7 +63,10 @@ export default function Pokemon({ onScroll }) {
       )}
 
       {pageNum <= 21 && (
-        <p className='animate-bounce w-6 h-6 rounded-full text-center bg-black text-white border border-purple-200 fixed bottom-2 left-1/2 '>
+        <p
+          onClick={goToBottom}
+          className='animate-bounce w-6 h-6 rounded-full text-center bg-black text-white border border-purple-200 fixed bottom-2 left-1/2 '
+        >
           ↓
         </p>
       )}
