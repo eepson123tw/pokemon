@@ -19,7 +19,6 @@ function usePokemonCard({ onScroll }) {
       onScrollDebounce()
     }
     onScroll(offset)
-    //TODO change to useContext
   }, [offset])
 
   return {
