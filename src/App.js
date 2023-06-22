@@ -1,6 +1,6 @@
 import React from 'react'
 import Pokemon from './component/Pokemon'
-import GoTop from './component/GoTop'
+// import GoTop from './component/GoTop'
 import { useState } from 'react'
 import { PokemonProvider } from './store/pokemonReducer'
 
@@ -11,12 +11,15 @@ function App() {
   }
 
   return (
-    <div style={{ background: `hsl(${randomColor},60%,70%)` }} className='app'>
-      <PokemonProvider>
+    <PokemonProvider>
+      <div
+        style={{ background: `hsl(${randomColor},60%,70%)` }}
+        className='app'
+      >
         <Pokemon randomColor={randomColor} onScroll={colorComputed}></Pokemon>
-      </PokemonProvider>
-      <GoTop></GoTop>
-    </div>
+        {/* <GoTop></GoTop> */}
+      </div>
+    </PokemonProvider>
   )
 }
 

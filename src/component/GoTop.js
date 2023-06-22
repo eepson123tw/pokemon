@@ -2,13 +2,18 @@ import React from 'react'
 
 export default function GoTop(ref) {
   const buttonRef = React.useRef()
-  function scrollToTop() {
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     })
   }
-
+  const goToBottom = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    })
+  }
   return (
     <>
       <button
