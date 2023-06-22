@@ -4,7 +4,7 @@ export default function LoadingCard({ showCardNum }) {
   const emptyList = new Array(showCardNum).fill('')
 
   return (
-    <ul className='grid grid-cols-1 gap-3 md:grid-cols-5 xl:grid-cols-6 sm:grid-cols-2'>
+    <ul className='grid grid-cols-1 gap-3 md:grid-cols-4 xl:grid-cols-5 sm:grid-cols-2'>
       {emptyList.map((d, i) => (
         <li
           key={i}

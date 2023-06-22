@@ -13,7 +13,6 @@ function usePokemonCard() {
   }, 1000)
 
   useEffect(() => {
-    if (!scrollY) return setPageNum(1)
     // @ts-ignore
     if (
       window.innerHeight + Math.round(scrollY) >=

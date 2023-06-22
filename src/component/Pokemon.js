@@ -12,6 +12,8 @@ export default function Pokemon() {
   const [{ pokemonList, allPokemonNumber, maxPageNum }, pokemonDispatch] =
     usePokemonContext()
 
+  //TODO reload return to top?
+
   // init card data
   useLayoutEffect(() => {
     getPokemon().then((res) => {
@@ -32,17 +34,17 @@ export default function Pokemon() {
   const { pageNum } = usePokemonCard()
 
   useEffect(() => {
-    // updatedPokemon(pokemonDispatch, {
-    //   pageNum,
-    //   showCardNum,
-    //   maxPageNum,
-    //   pokemonList
-    // })
-  }, [])
+    updatedPokemon(pokemonDispatch, {
+      pageNum,
+      showCardNum,
+      maxPageNum,
+      pokemonList
+    })
+  }, [pageNum])
 
   return (
     <div className='p-2'>
-      <h2 className='mb-4 font-serif text-4xl text-white'>
+      <h2 className='uppercase antialiased  mb-4 font-mono text-4xl text-white oldstyle-nums  hover:text-blue-600'>
         pokemon list {allPokemonNumber}
       </h2>
 
@@ -53,15 +55,6 @@ export default function Pokemon() {
       {pokemonList.length && (
         <PokemonCard pokemonList={pokemonList}></PokemonCard>
       )}
-
-      {/* {pageNum <= 21 && (
-        <p
-          onClick={goToBottom}
-          className='animate-bounce w-6 h-6 rounded-full text-center bg-black text-white border border-purple-200 fixed bottom-2 left-1/2 '
-        >
-          ↓
-        </p>
-      )} */}
     </div>
   )
 }

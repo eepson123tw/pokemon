@@ -58,6 +58,22 @@ const usePokemonContext = () => {
   return context
 }
 
+const mapReducer = (res) => {
+  const map = {}
+  const recursioneFn = (obj, res, column = '') => {
+    Object.keys(res).reduce((acc, cur, idx) => {
+      if (res[cur] && typeof res[cur] === 'string') {
+        acc[column + cur] = { value: res[cur], idx }
+      } else {
+        res[cur] && recursioneFn(acc, res[cur], cur + '-')
+      }
+      return acc
+    }, obj)
+  }
+  recursioneFn(map, res)
+  return map
+}
+
 // call api to get pokemonList
 let promise = []
 const updatedPokemon = (
@@ -72,11 +88,12 @@ const updatedPokemon = (
     const url = `https://pokeapi.co/api/v2/pokemon/${i}`
     promise.push(fetch(url).then((res) => res.json()))
   }
+
   Promise.all(promise)
     .then((results) => {
       const pokemon = results.map((result) => ({
         name: result.name,
-        image: result.sprites['front_default'],
+        image: mapReducer(result.sprites),
         type: result.types.map((type) => type.type.name).join(', '),
         id: result.id
       }))
