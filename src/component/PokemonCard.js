@@ -33,7 +33,7 @@ export default function PokemonCard({ pokemonList }) {
               loading='lazy'
               src={pokemon.image['animated-front_default'].value}
               alt={pokemon.name}
-              className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:animate-[wave_5s_ease-in-out_2] hover:translate-y-2 hover:scale-150 transition duration-300'
+              className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:animate-[wave_5s_ease-in-out_2]  transition duration-300'
               style={{ display: isLoading ? 'block' : 'none' }}
               onLoad={onLoad}
             />
