@@ -24,7 +24,7 @@ export default function PokemonCard({ pokemonList }) {
           onClick={(e) => pokemonImageHandler(pokemon.image, e)}
         >
           <p className='text-base mb-2'>{pokemon.name}</p>
-          <div className='w-[50px] h-[50px] '>
+          <div className='w-[50px] h-[50px] relative'>
             <p
               className='w-full rounded  bg-slate-300 h-[50px] animate-pulse'
               style={{ display: isLoading ? 'none' : 'block' }}
@@ -33,7 +33,7 @@ export default function PokemonCard({ pokemonList }) {
               loading='lazy'
               src={pokemon.image['animated-front_default'].value}
               alt={pokemon.name}
-              className='block object-contain w-[50px] h-[50px]'
+              className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:rotate-360 hover:translate-y-2 hover:scale-150 transition duration-300'
               style={{ display: isLoading ? 'block' : 'none' }}
               onLoad={onLoad}
             />
