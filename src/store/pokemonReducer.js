@@ -4,16 +4,23 @@ import React from 'react'
 const PokemonContext = React.createContext()
 PokemonContext.displayName = 'PokemonContext'
 
+const actionTypes = {
+  init: 'init',
+  pending: 'pending',
+  resolved: 'resolved',
+  reset: 'reset'
+}
+
 const usePokemonReducer = (state, action) => {
   switch (action.type) {
-    case 'init': {
+    case actionTypes.init: {
       return {
         pokemonList: [],
         allPokemonNumber: action.allPokemonNumber,
         maxPageNum: action.maxPageNum
       }
     }
-    case 'resolved': {
+    case actionTypes.resolved: {
       return {
         ...state,
         pokemonList:
@@ -22,11 +29,11 @@ const usePokemonReducer = (state, action) => {
             : [...state.pokemonList, ...action.pokemonList]
       }
     }
-    case 'rejected': {
+    case actionTypes.reset: {
       return { pokemonList: [], allPokemonNumber: 0, maxPageNum: 0 }
     }
     default: {
-      break
+      throw new Error(`Unsupported type: ${action.type}`)
     }
   }
 }

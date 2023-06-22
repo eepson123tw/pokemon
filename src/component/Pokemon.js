@@ -3,10 +3,10 @@ import { getPokemon } from '../api/pokemon'
 import LoadingCard from './LoadingCard'
 import PokemonCard from './PokemonCard'
 import React from 'react'
-import { usePokemonCard } from '../utils/getPokemonCard'
+import { usePokemonCard } from '../utils/usePokemonCard'
 import { usePokemonContext, updatedPokemon } from '../store/pokemonReducer'
 
-export default function Pokemon({ onScroll }) {
+export default function Pokemon() {
   // every time will get 50 card
   const showCardNum = 50
   const [{ pokemonList, allPokemonNumber, maxPageNum }, pokemonDispatch] =
@@ -19,28 +19,26 @@ export default function Pokemon({ onScroll }) {
       pokemonDispatch({
         type: 'init',
         allPokemonNumber: res.length,
-        maxPageNum: Math.round(res.length / 50)
+        maxPageNum: 21
       })
     })
     return () => {
       // @ts-ignore
-      pokemonDispatch({ type: 'rejected' })
+      pokemonDispatch({ type: 'reset' })
     }
   }, [])
 
   // get card current page and scroll page
-  const { pageNum } = usePokemonCard({
-    onScroll
-  })
+  const { pageNum } = usePokemonCard()
 
   useEffect(() => {
-    updatedPokemon(pokemonDispatch, {
-      pageNum,
-      showCardNum,
-      maxPageNum,
-      pokemonList
-    })
-  }, [pageNum])
+    // updatedPokemon(pokemonDispatch, {
+    //   pageNum,
+    //   showCardNum,
+    //   maxPageNum,
+    //   pokemonList
+    // })
+  }, [])
 
   return (
     <div className='p-2'>

@@ -2,25 +2,25 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 
 const isWindowAvailable = typeof window !== 'undefined'
-const getPosition = () => (isWindowAvailable ? window.pageYOffset : undefined)
 
 /**
  * to observer the scroll event
  */
 function useScrollHandler() {
-  const [scrollPosition, setScrollPosition] = useState(getPosition())
-
+  const [scrollPosition, setPosition] = useState({ scrollX: 0, scrollY: 0 })
   // @ts-ignore
   useEffect(() => {
     if (!isWindowAvailable) {
       return false
     }
+    function updatePosition() {
+      setPosition({ scrollX: window.scrollX, scrollY: window.scrollY })
+    }
 
-    const handleScroll = () => setScrollPosition(getPosition())
+    window.addEventListener('scroll', updatePosition)
+    updatePosition()
 
-    window.addEventListener('scroll', handleScroll)
-
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', updatePosition)
   }, [])
 
   return [scrollPosition]

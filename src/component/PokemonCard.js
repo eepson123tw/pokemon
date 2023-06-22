@@ -1,10 +1,10 @@
 import React from 'react'
 
 export default function PokemonCard({ pokemonList }) {
-  const [hasLoaded, setLoaded] = React.useState(false)
-  const onLoad = () => {
-    setLoaded(true)
-  }
+  // const [hasLoaded, setLoaded] = React.useState(false)
+  // const onLoad = () => {
+  //   setLoaded(true)
+  // }
 
   return (
     <ul className='grid grid-cols-1 gap-3 md:grid-cols-5 xl:grid-cols-6 sm:grid-cols-2 cursor-pointer '>
@@ -15,16 +15,15 @@ export default function PokemonCard({ pokemonList }) {
         >
           <p className='text-base'>{pokemon.name}</p>
           <img
-            onLoad={onLoad}
             src={pokemon.image}
             alt={pokemon.name}
             className='block w-auto '
           />
-          {!hasLoaded && (
+          {/* {!hasLoaded && (
             <div className='animate-pulse flex flex-col w-[100px] items-center h-[250px] '>
               <p className='w-full rounded  bg-slate-300 h-[100%] basis-5/6 mt-2'></p>
             </div>
-          )}
+          )} */}
         </li>
       ))}
     </ul>
