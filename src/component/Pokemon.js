@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { getPokemon } from '../api/pokemon'
 import LoadingCard from './LoadingCard'
 import PokemonCard from './PokemonCard'
@@ -34,16 +34,17 @@ export default function Pokemon() {
   const { pageNum } = usePokemonCard()
 
   useEffect(() => {
-    updatedPokemon(pokemonDispatch, {
-      pageNum,
-      showCardNum,
-      maxPageNum,
-      pokemonList
-    })
-  }, [pageNum])
+    if (maxPageNum) {
+      updatedPokemon(pokemonDispatch, {
+        pageNum,
+        showCardNum,
+        maxPageNum
+      })
+    }
+  }, [pageNum, maxPageNum])
 
   return (
-    <div className='p-2'>
+    <div className='p-2 h-full'>
       <h2 className='uppercase antialiased  mb-4 font-mono text-4xl text-white oldstyle-nums  hover:text-blue-600'>
         pokemon list {allPokemonNumber}
       </h2>

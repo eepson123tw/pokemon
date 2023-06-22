@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function PokemonCard({ pokemonList }) {
   const pokemonImageHandler = (map, e) => {
@@ -19,12 +19,12 @@ export default function PokemonCard({ pokemonList }) {
     <ul className='grid grid-cols-1 gap-3 md:grid-cols-4 xl:grid-cols-5 sm:grid-cols-2 cursor-pointer '>
       {pokemonList.map((pokemon, idx) => (
         <li
-          className='h-[200px] flex justify-center items-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-2 max-h-[150px] uppercase hover:border-pink-700 hover:bg-black ease-linear duration-300 hover:text-yellow-100'
+          className='min-h-[200px] flex justify-center items-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-2 max-h-[150px] uppercase hover:border-pink-700 hover:bg-black ease-linear duration-300 hover:text-yellow-100'
           key={pokemon.name + idx}
           onClick={(e) => pokemonImageHandler(pokemon.image, e)}
         >
           <p className='text-base mb-2'>{pokemon.name}</p>
-          <div className='w-[50px] h-[50px] relative'>
+          <div className='w-[50px] h-[50px] relative mb-2'>
             <p
               className='w-full rounded  bg-slate-300 h-[50px] animate-pulse'
               style={{ display: isLoading ? 'none' : 'block' }}
@@ -33,11 +33,12 @@ export default function PokemonCard({ pokemonList }) {
               loading='lazy'
               src={pokemon.image['animated-front_default'].value}
               alt={pokemon.name}
-              className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:rotate-360 hover:translate-y-2 hover:scale-150 transition duration-300'
+              className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:animate-[wave_5s_ease-in-out_2] hover:translate-y-2 hover:scale-150 transition duration-300'
               style={{ display: isLoading ? 'block' : 'none' }}
               onLoad={onLoad}
             />
           </div>
+          <p>{pokemon.words[0].flavor_text}</p>
         </li>
       ))}
     </ul>

@@ -1,5 +1,6 @@
 import React from 'react'
-
+import { getPokemonInfo, getPokemonDetail } from '../api/pokemon'
+import Pokemon from '../component/Pokemon'
 // @ts-ignore useContext
 const PokemonContext = React.createContext()
 PokemonContext.displayName = 'PokemonContext'
@@ -76,37 +77,51 @@ const mapReducer = (res) => {
 
 // call api to get pokemonList
 let promise = []
-const updatedPokemon = (
+let infoPromise = []
+const updatedPokemon = async (
   dispatch,
-  { pageNum, showCardNum, maxPageNum, pokemonList }
+  { pageNum, showCardNum, maxPageNum }
 ) => {
   const num = pageNum === 1 ? 1 : showCardNum * (pageNum - 1) + 1
-  if (pageNum >= maxPageNum - 3 && maxPageNum !== 0) return
-  if (pageNum === 1 && pokemonList.length) return
+  console.log({ pageNum, maxPageNum })
+  if (pageNum >= maxPageNum && maxPageNum !== 0) return
+
   promise = []
+  infoPromise = []
   for (let i = num; i <= showCardNum * pageNum; i++) {
-    const url = `https://pokeapi.co/api/v2/pokemon/${i}`
-    promise.push(fetch(url).then((res) => res.json()))
+    promise.push(getPokemonInfo(i))
+    infoPromise.push(getPokemonDetail(i))
   }
 
-  Promise.all(promise)
-    .then((results) => {
+  try {
+    let res = await Promise.all(promise).then((results) => {
       const pokemon = results.map((result) => ({
         name: result.name,
         image: mapReducer(result.sprites),
         type: result.types.map((type) => type.type.name).join(', '),
         id: result.id
       }))
-      // @ts-ignore
-      dispatch({
-        type: 'resolved',
-        pokemonList: pokemon,
-        pageNum
-      })
+      return pokemon
     })
-    .catch((error) => {
-      console.log(error)
+
+    res = await Promise.all(infoPromise).then((results) => {
+      const pokemon = results.map((result, idx) => ({
+        ...res[idx],
+        name: result.names[3].name,
+        words: result.flavor_text_entries.filter(
+          (item) => item.language.name === 'zh-Hant'
+        )
+      }))
+      return pokemon
     })
+    dispatch({
+      type: 'resolved',
+      pokemonList: res,
+      pageNum
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export { PokemonProvider, usePokemonContext, updatedPokemon }
