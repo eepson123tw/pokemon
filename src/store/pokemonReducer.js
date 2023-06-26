@@ -83,9 +83,15 @@ const updatedPokemon = async (
   { pageNum, showCardNum, maxPageNum }
 ) => {
   const num = pageNum === 1 ? 1 : showCardNum * (pageNum - 1) + 1
-  console.log({ pageNum, maxPageNum })
+  const filterLan = (list, language) => {
+    return (idx) => {
+      return list[idx].flavor_text_entries.filter(
+        (item) => item.language.name === language
+      )
+    }
+  }
   if (pageNum >= maxPageNum && maxPageNum !== 0) return
-
+  console.log({ pageNum, maxPageNum })
   promise = []
   infoPromise = []
   for (let i = num; i <= showCardNum * pageNum; i++) {
@@ -105,12 +111,11 @@ const updatedPokemon = async (
     })
 
     res = await Promise.all(infoPromise).then((results) => {
+      const twPokemonNameList = filterLan(results, 'zh-Hant')
       const pokemon = results.map((result, idx) => ({
         ...res[idx],
         name: result.names[3].name,
-        words: result.flavor_text_entries.filter(
-          (item) => item.language.name === 'zh-Hant'
-        )
+        words: twPokemonNameList(idx)[0]
       }))
       return pokemon
     })

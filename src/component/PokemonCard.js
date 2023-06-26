@@ -31,14 +31,20 @@ export default function PokemonCard({ pokemonList }) {
             ></p>
             <img
               loading='lazy'
-              src={pokemon.image['animated-front_default'].value}
+              src={
+                pokemon?.image['animated-front_default']?.value ||
+                pokemon?.image['front_default'].value
+              }
               alt={pokemon.name}
               className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:animate-[wave_5s_ease-in-out_2]  transition duration-300'
               style={{ display: isLoading ? 'block' : 'none' }}
               onLoad={onLoad}
             />
           </div>
-          <p>{pokemon.words[0].flavor_text}</p>
+          {pokemon.words && pokemon.words.flavor_text && (
+            <p>{pokemon.words.flavor_text}</p>
+          )}
+          {!pokemon.words && <p>無中文說明</p>}
         </li>
       ))}
     </ul>
