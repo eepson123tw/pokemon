@@ -9,6 +9,7 @@ export default function PokemonCard({ pokemonList }) {
       if (!target.querySelector('img')) return
       target.querySelector('img').src = map[keyList[randomIdx]].value
     }
+    if (!keyList.length) return
     map[keyList[randomIdx]] && fn()
   }
   const [isLoading, setIsLoading] = useState(true)
