@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Pokemon from './component/Pokemon'
-// import GoTop from './component/GoTop'
+import ScrollDirection from './component/ScrollDirection.js'
 import { useState } from 'react'
 import { useScrollHandler } from './utils/useScroll'
 import { PokemonProvider } from './store/pokemonReducer'
@@ -26,7 +26,7 @@ function App() {
         className='app'
       >
         <Pokemon></Pokemon>
-        {/* <GoTop></GoTop> */}
+        <ScrollDirection></ScrollDirection>
       </div>
     </PokemonProvider>
   )
