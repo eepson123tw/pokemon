@@ -1,11 +1,10 @@
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, Suspense, lazy } from 'react'
 import { getPokemon } from '../api/pokemon'
-import LoadingCard from './LoadingCard'
-import PokemonCard from './PokemonCard'
 import React from 'react'
 import { usePokemonCard } from '../utils/usePokemonCard'
 import { usePokemonContext, updatedPokemon } from '../store/pokemonReducer'
-
+const LoadingCard = lazy(() => import('./LoadingCard'))
+const PokemonCard = lazy(() => import('./PokemonCard'))
 export default function Pokemon() {
   // every time will get 50 card
   const showCardNum = 50
@@ -53,9 +52,11 @@ export default function Pokemon() {
         <LoadingCard showCardNum={showCardNum}></LoadingCard>
       )}
 
-      {pokemonList.length && (
-        <PokemonCard pokemonList={pokemonList}></PokemonCard>
-      )}
+      <Suspense fallback={<div>loading...</div>}>
+        {pokemonList.length !== 0 && (
+          <PokemonCard pokemonList={pokemonList}></PokemonCard>
+        )}
+      </Suspense>
     </div>
   )
 }

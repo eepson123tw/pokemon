@@ -5,13 +5,14 @@ export default function PokemonCard({ pokemonList }) {
     let keyList = Object.keys(map).filter((key) => key.includes('ani'))
     let randomIdx = Math.floor(Math.random() * keyList.length)
     const target = e.target
-    const fn = () => {
+    const setImgSrc = () => {
       if (!target.querySelector('img')) return
       target.querySelector('img').src = map[keyList[randomIdx]].value
     }
     if (!keyList.length) return
-    map[keyList[randomIdx]] && fn()
+    map[keyList[randomIdx]] && setImgSrc()
   }
+
   const [isLoading, setIsLoading] = useState(true)
   const onLoad = () => {
     setTimeout(() => setIsLoading(true), 1000)

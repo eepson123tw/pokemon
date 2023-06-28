@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
-import Pokemon from './component/Pokemon'
-import ScrollDirection from './component/ScrollDirection.js'
 import { useState } from 'react'
 import { useScrollHandler } from './utils/useScroll'
 import { PokemonProvider } from './store/pokemonReducer'
+
+const ScrollDirection = React.lazy(() =>
+  import('./component/ScrollDirection.js')
+)
+const Pokemon = React.lazy(() => import('./component/Pokemon'))
 
 function App() {
   const [randomColor, serRandoColor] = useState(0)
