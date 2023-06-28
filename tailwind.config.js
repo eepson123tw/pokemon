@@ -17,10 +17,10 @@ module.exports = {
           '60%': { transform: 'rotate(0.0deg)  scale(1.25) ' },
           '100%': { transform: 'rotate(0.0deg)  scale(1) ' }
         }
+      },
+      animation: {
+        'waving-hand': 'wave 2s linear infinite'
       }
-    },
-    animation: {
-      'waving-hand': 'wave 2s linear infinite'
     }
   },
   plugins: []

@@ -18,12 +18,20 @@ const usePokemonReducer = (state, action) => {
       return {
         pokemonList: [],
         allPokemonNumber: action.allPokemonNumber,
-        maxPageNum: action.maxPageNum
+        maxPageNum: action.maxPageNum,
+        status: ''
+      }
+    }
+    case actionTypes.pending: {
+      return {
+        ...state,
+        status: action.status
       }
     }
     case actionTypes.resolved: {
       return {
         ...state,
+        status: action.status,
         pokemonList:
           action.pageNum === 1
             ? action.pokemonList
@@ -31,7 +39,7 @@ const usePokemonReducer = (state, action) => {
       }
     }
     case actionTypes.reset: {
-      return { pokemonList: [], allPokemonNumber: 0, maxPageNum: 0 }
+      return { pokemonList: [], allPokemonNumber: 0, maxPageNum: 0, status: '' }
     }
     default: {
       throw new Error(`Unsupported type: ${action.type}`)
@@ -43,7 +51,8 @@ const PokemonProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(usePokemonReducer, {
     pokemonList: [],
     allPokemonNumber: 0,
-    maxPageNum: 0
+    maxPageNum: 0,
+    status: ''
   })
   const value = [state, dispatch]
   return (
@@ -91,13 +100,16 @@ const updatedPokemon = async (
     }
   }
   if (pageNum >= maxPageNum && maxPageNum !== 0) return
-  console.log({ pageNum, maxPageNum })
   promise = []
   infoPromise = []
   for (let i = num; i <= showCardNum * pageNum; i++) {
     promise.push(getPokemonInfo(i))
     infoPromise.push(getPokemonDetail(i))
   }
+  dispatch({
+    type: 'pending',
+    status: 'pending'
+  })
 
   try {
     let res = await Promise.all(promise).then((results) => {
@@ -122,7 +134,8 @@ const updatedPokemon = async (
     dispatch({
       type: 'resolved',
       pokemonList: res,
-      pageNum
+      pageNum,
+      status: 'success'
     })
   } catch (error) {
     console.log(error)

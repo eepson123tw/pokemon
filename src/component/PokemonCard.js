@@ -13,24 +13,16 @@ export default function PokemonCard({ pokemonList }) {
     map[keyList[randomIdx]] && setImgSrc()
   }
 
-  const [isLoading, setIsLoading] = useState(true)
-  const onLoad = () => {
-    setTimeout(() => setIsLoading(true), 1000)
-  }
   return (
     <ul className='grid grid-cols-1 gap-3 md:grid-cols-4 xl:grid-cols-5 sm:grid-cols-2 cursor-pointer '>
       {pokemonList.map((pokemon, idx) => (
         <li
-          className='min-h-[200px] flex justify-center items-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-2 max-h-[150px] uppercase hover:border-pink-700 hover:bg-black ease-linear duration-300 hover:text-yellow-100'
+          className='min-h-[200px] w-[100%] flex items-center flex-col text-center text-gray-700 font-medium bg-white border border-blue-300 shadow rounded-md p-2 max-h-[150px] uppercase hover:border-pink-700 hover:bg-black ease-linear duration-300 hover:text-yellow-100'
           key={pokemon.name + idx}
           onClick={(e) => pokemonImageHandler(pokemon.image, e)}
         >
           <p className='text-base mb-2'>{pokemon.name}</p>
-          <div className='w-[50px] h-[50px] relative mb-2'>
-            <p
-              className='w-full rounded  bg-slate-300 h-[50px] animate-pulse'
-              style={{ display: isLoading ? 'none' : 'block' }}
-            ></p>
+          <div className='w-[50px] h-[50px] relative mb-2 '>
             <img
               loading='lazy'
               src={
@@ -38,14 +30,14 @@ export default function PokemonCard({ pokemonList }) {
                 pokemon?.image['front_default'].value
               }
               alt={pokemon.name}
-              className='block object-contain w-[50px] h-[50px] absolute inset-0 transform hover:animate-[wave_5s_ease-in-out_2]  transition duration-300'
-              style={{ display: isLoading ? 'block' : 'none' }}
-              onLoad={onLoad}
+              className='block object-contain w-[50px] h-[50px]  inset-0 transform hover:animate-[wave_5s_ease-in-out_2]  transition duration-300'
             />
           </div>
-          {pokemon.words && pokemon.words.flavor_text && (
-            <p>{pokemon.words.flavor_text}</p>
-          )}
+          <p className='overflow-ellipsis overflow-hidden  w-full px-1'>
+            {pokemon.words &&
+              pokemon.words.flavor_text &&
+              pokemon.words.flavor_text}
+          </p>
           {!pokemon.words && <p>無中文說明</p>}
         </li>
       ))}
