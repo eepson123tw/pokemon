@@ -11,6 +11,12 @@ const actionTypes = {
   resolved: 'resolved',
   reset: 'reset'
 }
+const setReRender = (list, needToReRender) => {
+  return list.map((item) => ({
+    ...item,
+    noNeedToReRender: needToReRender
+  }))
+}
 
 const usePokemonReducer = (state, action) => {
   switch (action.type) {
@@ -34,8 +40,11 @@ const usePokemonReducer = (state, action) => {
         status: action.status,
         pokemonList:
           action.pageNum === 1
-            ? action.pokemonList
-            : [...state.pokemonList, ...action.pokemonList]
+            ? setReRender(action.pokemonList, true)
+            : [
+                ...setReRender(state.pokemonList, false),
+                ...setReRender(action.pokemonList, true)
+              ]
       }
     }
     case actionTypes.reset: {

@@ -6,7 +6,7 @@ import useDebouncedCallback from './useDebounce'
 function usePokemonCard() {
   // to get scroll action
   const [{ scrollX, scrollY }] = useScrollHandler()
-  const [pageNum, setPageNum] = useState(1)
+  const [pageNum, setPageNum] = useState(0)
 
   const onScrollDebounce = useDebouncedCallback((newValue) => {
     setPageNum(pageNum + 1)
