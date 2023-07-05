@@ -1,6 +1,6 @@
 import React from 'react'
 import { getPokemonInfo, getPokemonDetail } from '../api/pokemon'
-import Pokemon from '../component/Pokemon'
+
 // @ts-ignore useContext
 const PokemonContext = React.createContext()
 PokemonContext.displayName = 'PokemonContext'

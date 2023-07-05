@@ -13,7 +13,6 @@ import { usePokemonCard } from '../utils/usePokemonCard'
 import { usePokemonContext, updatedPokemon } from '../store/pokemonReducer'
 const LoadingCard = lazy(() => import('./LoadingCard'))
 const PokemonCard = lazy(() => import('./PokemonCard'))
-
 const LoadingCircleMemo = React.memo(LoadingCircle)
 
 export default function Pokemon() {

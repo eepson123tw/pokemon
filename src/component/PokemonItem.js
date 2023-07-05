@@ -19,7 +19,7 @@ function PokemonItem({ pokemon, idx }) {
       onClick={(e) => pokemonImageHandler(pokemon.image, e)}
     >
       <p className='text-base mb-2'>{pokemon.name}</p>
-      <div className='w-[50px] h-[50px] relative mb-2 '>
+      <div className='w-[50px] h-[50px] relative mb-2'>
         <img
           loading='lazy'
           src={
