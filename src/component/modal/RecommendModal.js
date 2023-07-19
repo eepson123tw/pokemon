@@ -17,7 +17,7 @@ const mapReducer = (res) => {
   return map
 }
 export default function RecommendModal() {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(true)
   const [data, setData] = useState({})
   useEffect(() => {
     setTimeout(() => {
@@ -34,10 +34,14 @@ export default function RecommendModal() {
             })
           )
           .catch((err) => {
-            setData({})
+            setData(() => ({}))
           })
     }, 2000)
-  }, [showModal])
+
+    return () => {
+      setData({})
+    }
+  }, [])
 
   //TODO badge can use random
   return (
