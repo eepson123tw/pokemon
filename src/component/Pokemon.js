@@ -63,8 +63,8 @@ export default function Pokemon() {
   }, [status])
 
   return (
-    <div className='p-2 h-full'>
-      <h2 className='uppercase antialiased  mb-4 font-mono text-4xl text-white oldstyle-nums  hover:text-blue-600 inline-block'>
+    <div className='p-2 h-full font-zpix'>
+      <h2 className='uppercase antialiased  mb-4  text-4xl text-white oldstyle-nums  hover:text-blue-600 inline-block'>
         pokemon list {allPokemonNumber}
       </h2>
       <React.Suspense fallback={<></>}>

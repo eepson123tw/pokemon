@@ -1,23 +1,16 @@
-
 html,body {
- width: 100%;
- height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+
+  /* font-family: -apple-system, BlinkMacSystemFont, 'zpix'; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 .app{
@@ -27,3 +20,21 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@font-face {
+  font-family: 'zpix'; 
+  src: local('zpix'), url(./fonts/zpix.ttf?v2021-03-21) ;
+}
+@font-face {
+  font-family: 'ZpixReviewLocal';
+  src: local('ZpixReviewLocal'), url(./fonts/zpix.woff2?v2021-03-21) format('woff');
+}
+
+@font-face {
+  font-family: 'ZpixReviewOnline';
+  src: url(https://zpix.now.sh/zpix.woff2?v2021-03-21);
+}
+
+
+
