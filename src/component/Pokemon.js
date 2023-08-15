@@ -1,11 +1,4 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  Suspense,
-  lazy,
-  useState
-} from 'react'
+import { useEffect, useLayoutEffect, lazy, useState } from 'react'
 import { getPokemon } from '../api/pokemon'
 import React from 'react'
 import LoadingCircle from './LoadingCircle'
@@ -38,7 +31,7 @@ export default function Pokemon() {
       // @ts-ignore
       pokemonDispatch({ type: 'reset' })
     }
-  }, [])
+  })
 
   // get card current page and scroll page
   const { pageNum } = usePokemonCard()
@@ -51,6 +44,7 @@ export default function Pokemon() {
         maxPageNum
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum])
 
   useEffect(() => {
